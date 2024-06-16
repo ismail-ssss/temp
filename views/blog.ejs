@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include("./partials/head") %>
+    <title>Blog</title>
+  </head>
+  <body>
+    <%- include("./partials/nav") %>
+
+    <div class="container">
+      <h1><%= blog.title %></h1>
+      <img src="<%= blog.coverImageURL %>" width="500px" alt="" />
+      <pre><%= blog.body %></pre>
+    </div>
+
+    <div class="container">
+      <img src="<%= blog.createdBy.profileImageURL %>" width="50px" alt="" />
+      <p><%= blog.createdBy.fullname %></p>
+    </div>
+
+    <div class="container mt-3">
+      <h1>Comments (<%= comments.length %>)</h1>
+      <% if (locals.user) { %>
+      <form action="/blog/comment/<%= blog._id %>" method="post">
+        <div class="mb-3">
+          <input
+            type="text"
+            class="form-control"
+            name="content"
+            placeholder="Comment here"
+          />
+        </div>
+        <button type="submit" class="btn btn-sm btn-success">Add</button>
+      </form>
+    </div>
+    <% } %>
+
+    <div class="container mt-3">
+      <% comments.forEach(comment => { %>
+      <div>
+        <img
+          src="<%= comment.createdBy.profileImageURL %>"
+          width="50px"
+          alt=""
+        />
+        <p class="fw-bold d-inline"><%= comment.createdBy.fullname %></p>
+        <%= comment.content %>
+      </div>
+      <% }) %>
+    </div>
+
+    <%- include("./partials/scripts") %>
+  </body>
+</html>
